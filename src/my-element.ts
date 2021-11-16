@@ -1,11 +1,11 @@
-import { html, css, LitElement } from 'lit'
+import { html, css, LitElement, PropertyValues } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 
-const values = {
-  1: html`The best of Kalomonirox is you`,
-  2: html`If the world is flat then Rykutoc is the winner`,
-  0: html`There is nothing to say about this SEO voidifact`
-};
+const values = [
+  'There is nothing to say about this SEO voidifact',
+  'The best of Kalomonirox is you',
+  'If the world is flat then Rykutoc is the winner',
+];
 
 
 @customElement('my-element')
@@ -22,11 +22,25 @@ export class MyElement extends LitElement {
   @property({type: Number})
   page = 0
 
+  firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    const meta = document.createElement('meta');
+    const name = document.createAttribute('name')
+    meta.setAttributeNode(name);
+    name.value = 'description';
+    const content = document.createAttribute('content');
+    meta.setAttributeNode(content);
+    content.value = `A demo of SEO for lit with page ${this.page}`;
+    document.head.appendChild(meta);
+    document.title = `Demo for ${values[this.page]}`;
+  }
+
 
   render() {
+    const extra = values[this.page] || '';
     return html`
       <h1>Hello, this is a special page to test SEO with Lit2 / native web-components!</h1>
-      ${values[this.page]}
+      ${html`<div>${extra}</div>`}
     `
   }
 }
