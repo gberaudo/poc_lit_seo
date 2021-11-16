@@ -9,6 +9,7 @@ export default defineConfig({
     outDir: 'docs',
     rollupOptions: {
       input: {
+        google: 'google736bb0f85132064e.html',
         index: 'index.html',
         first: 'first.html',
         second: 'second.html',
